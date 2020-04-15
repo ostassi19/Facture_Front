@@ -1,0 +1,32 @@
+<div class="container">
+  <form>
+    <div class="form-group form-inline">
+      Full text search: <input class="form-control ml-2" type="text"/>
+    </div>
+  </form>
+
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Référence</th>
+      <th scope="col">Date Commande</th>
+      <th scope="col">Prix</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let commande of Commandes; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td><ngb-highlight [result]="commande.refCommande"></ngb-highlight>
+      </td>
+      <td><ngb-highlight [result]="commande.date | date:'dd-MM-yyyy'"></ngb-highlight></td>
+      <td><ngb-highlight [result]="commande.prix_unitaire | number"></ngb-highlight></td>
+      <td>
+        <a href="#">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
