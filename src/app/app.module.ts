@@ -13,13 +13,19 @@ import { CommandeComponent } from './commande/commande.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import { ReglementComponent } from './reglement/reglement.component';
+import { AnalyseComponent } from './analyse/analyse.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     FactureComponent,
-    CommandeComponent
+    CommandeComponent,
+    ReglementComponent,
+    AnalyseComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +37,8 @@ import {MatInputModule} from '@angular/material/input';
     HttpClientModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,93 @@
+<div class="container">
+  <form>
+    <div class="row">
+      <div class="col-lg-5">
+        <div class="form-group form-inline">
+          Full text search: <input class="form-control ml-2" type="text" [formControl]="filter"/>
+        </div>
+      </div>
+      
+    </div>
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Modal title</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container" novalidate>
+          <form [formGroup]="formGroup" class="form">
+            <div class="row">
+              <div class="col-lg-2">
+                Référence
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="form-element">
+                  <input matInput placeholder="Référence" formControlName="refAnalyse">
+                </mat-form-field>
+              </div>
+              <div class="col-lg-2">
+                Date Paiement
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="form-element">
+                  <input matInput placeholder="Date datepaiement" formControlName="datepaiement">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2">
+                Nombre Relancement Client
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="form-element">
+                  <input matInput placeholder="2" formControlName="nbrelancement">
+                </mat-form-field>
+              </div>
+              
+            </div>
+  
+  
+  
+              <div class="form-element">
+                <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Submit Form</button>
+              </div>
+  
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </ng-template>
+  </form>
+  
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Référence</th>
+      <th scope="col">Date Paiement</th>
+      <th scope="col">Nomre Relancement</th>
+      <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{countries$ | json}}
+    <tr *ngFor="let country of Analyses; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td><ngb-highlight [result]="country.refAnalyse "></ngb-highlight>
+      </td>
+      <td><ngb-highlight [result]="country.datepaiement | date:'dd-MM-yyyy'"></ngb-highlight></td>
+      <td><ngb-highlight [result]="country.nbrelancement | number"></ngb-highlight></td>
+      <td>
+        <a href="#">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  </div>
+  

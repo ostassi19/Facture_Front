@@ -1,39 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { CommandeService } from '../services/commande.service';
+import { AnalyseModel } from '../models/analyse.model';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { CommandeModel } from '../models/commande.model';
-
+import { AnalyseService } from '../services/analyse.service';
 
 @Component({
-  selector: 'app-commande',
-  templateUrl: './commande.component.html',
-  styleUrls: ['./commande.component.css']
+  selector: 'app-analyse',
+  templateUrl: './analyse.component.html',
+  styleUrls: ['./analyse.component.css']
 })
-export class CommandeComponent implements OnInit {
+export class AnalyseComponent implements OnInit {
 
-  Commandes: CommonModule;
-  countries$: Observable<CommandeModel[]>;
+  Analyses: CommonModule;
+  countries$: Observable<AnalyseModel[]>;
   filter = new FormControl('');
   formGroup: FormGroup;
+
   constructor(
-    private commandeService: CommandeService,
+    private analyseService: AnalyseService,
     pipe: DecimalPipe,
     private modalService: NgbModal,
     private formBuilder: FormBuilder
-  )
-  {
-    this.commandeService.getCommandes().subscribe(
-      commandes => {
-        this.Commandes = commandes;
-        //console.log(this.Factures);
+  ) {
+    this.analyseService.getAnalyses().subscribe(
+      analyses => {
+        this.Analyses = analyses;
       });
-    console.log(this.Commandes);
+    console.log(this.Analyses);
   }
-
 
   ngOnInit(): void {
     this.createForm();
@@ -45,12 +42,11 @@ export class CommandeComponent implements OnInit {
 
   createForm() {
     this.formGroup = this.formBuilder.group({
-      'refCommande': [null, Validators.required],
-      'date': [null, Validators.required],
-      'montant': [null, Validators.required],
+      'refAnalyse': [null, Validators.required],
+      'datepaiement': [null, Validators.required],
+      'nbrelancement': [null, Validators.required],
       'validate': ''
     });
   }
+
 }
-
-

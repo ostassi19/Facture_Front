@@ -1,8 +1,17 @@
 <div class="container">
   <form>
-    <div class="form-group form-inline">
-      Full text search: <input class="form-control ml-2" type="text"/>
+    <div class="row">
+      <div class="col-lg-5">
+        <div class="form-group form-inline">
+          Full text search: <input class="form-control ml-2" type="text" [formControl]="filter"/>
+        </div>
+      </div>
+      <div class="col-lg-5"></div>
+      <div class="col-lg-2">
+        <button type="button" class="btn btn-primary" >Ajouter</button>
+      </div>
     </div>
+    
   </form>
 
   <table class="table table-striped">
@@ -20,7 +29,7 @@
       <td><ngb-highlight [result]="commande.refCommande"></ngb-highlight>
       </td>
       <td><ngb-highlight [result]="commande.date | date:'dd-MM-yyyy'"></ngb-highlight></td>
-      <td><ngb-highlight [result]="commande.prix_unitaire | number"></ngb-highlight></td>
+      <td><ngb-highlight [result]="commande.montant | number"></ngb-highlight></td>
       <td>
         <a href="#">
           <span class="glyphicon glyphicon-pencil"></span>

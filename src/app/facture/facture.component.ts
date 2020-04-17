@@ -1,11 +1,15 @@
-import {Component, OnInit, PipeTransform} from '@angular/core';
-import {Observable} from 'rxjs';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {DecimalPipe} from '@angular/common';
-import {map, startWith} from 'rxjs/operators';
-import {FacturesService} from '../services/factures.service';
-import {FactureModel} from '../models/facture.model';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, PipeTransform } from '@angular/core';
+import { Observable } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DecimalPipe } from '@angular/common';
+import { map, startWith } from 'rxjs/operators';
+import { FacturesService } from '../services/factures.service';
+import { FactureModel } from '../models/facture.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CommandeModel } from '../models/commande.model';
+import { CommandeService } from '../services/commande.service';
+import {NgSelectModule, NgOption} from '@ng-select/ng-select';
+
 
 /*const COUNTRIES: Country[] = [
   {
@@ -47,12 +51,14 @@ export class FactureComponent implements OnInit {
   countries$: Observable<FactureModel[]>;
   filter = new FormControl('');
   formGroup: FormGroup;
+  Commandes: CommandeModel[];
 
   constructor(
     pipe: DecimalPipe,
     private factureService: FacturesService,
     private modalService: NgbModal,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private commandeService: CommandeService,
   ) {
     this.factureService.getFactures().subscribe(
       factures => {
@@ -60,12 +66,24 @@ export class FactureComponent implements OnInit {
         //console.log(this.Factures);
       });
     console.log(this.Factures);
+   
   }
   ngOnInit(): void {
     this.createForm();
+    this.createCommade();
   }
   openLg(content) {
+    this.commandeService.getCommandes().subscribe(
+      commandes => {
+        this.Commandes = commandes;
+        //console.log(this.Factures);
+      });
+    console.log(this.Factures);
     this.modalService.open(content, { size: 'lg' });
+  }
+
+  createCommade() {
+    //this.commandes.push(this.Commandes.refCommande)
   }
 
   createForm() {
@@ -74,6 +92,7 @@ export class FactureComponent implements OnInit {
       'dateEmission': [null, Validators.required],
       'datePaiement': [null, Validators.required],
       'montant': [null, Validators.required],
+      'commandes': [null, Validators.required],
       'validate': ''
     });
   }

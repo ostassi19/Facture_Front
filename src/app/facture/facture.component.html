@@ -1,104 +1,146 @@
 <div class="container">
-<form>
-  <div class="row">
-    <div class="col-lg-5">
-      <div class="form-group form-inline">
-        Full text search: <input class="form-control ml-2" type="text" [formControl]="filter"/>
+  <form>
+    <div class="row">
+      <div class="col-lg-5">
+        <div class="form-group form-inline">
+          Full text search: <input class="form-control ml-2" type="text" [formControl]="filter" />
+        </div>
+      </div>
+      <div class="col-lg-5"></div>
+      <div class="col-lg-2">
+        <button type="button" class="btn btn-primary" (click)="openLg(content)">Ajouter</button>
       </div>
     </div>
-    <div class="col-lg-5"></div>
-    <div class="col-lg-2">
-      <button type="button" class="btn btn-primary" (click)="openLg(content)">Ajouter</button>
-    </div>
-  </div>
-  <ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title">Modal title</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="container" novalidate>
-        <form [formGroup]="formGroup" class="form">
-          <div class="row">
-            <div class="col-lg-2">
-              Référence
-            </div>
-            <div class="col-lg-4">
-              <mat-form-field class="form-element">
-                <input matInput placeholder="Référence" formControlName="refFacture">
-              </mat-form-field>
-            </div>
-            <div class="col-lg-2">
-              Date Emission
-            </div>
-            <div class="col-lg-4">
-              <mat-form-field class="form-element">
-                <input matInput placeholder="Date Emission" formControlName="dateEmission">
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2">
-              date Paiement
-            </div>
-            <div class="col-lg-4">
-              <mat-form-field class="form-element">
-                <input matInput placeholder="date Paiement" formControlName="datePaiement">
-              </mat-form-field>
-            </div>
-            <div class="col-lg-2">
-              montant
-            </div>
-            <div class="col-lg-4">
-              <mat-form-field class="form-element">
-                <input matInput placeholder="montant" formControlName="montant">
-              </mat-form-field>
-            </div>
-          </div>
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Ajouter Facture </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container" novalidate>
+          <form [formGroup]="formGroup" class="form">
+            <div class="row">
+              <div class="col-lg-2">
+                Référence
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="form-element">
+                  <input matInput placeholder="Référence" formControlName="refFacture">
+                </mat-form-field>
+              </div>
+              <div class="col-lg-2">
+                date Paiement
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="form-element">
+                  <input matInput placeholder="date Paiement" formControlName="datePaiement">
+                </mat-form-field>
+              </div>
 
+            </div>
+            <div class="row">
+              <div class="col-lg-2">
+                montant
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="form-element">
+                  <input matInput placeholder="montant" formControlName="montant">
+                </mat-form-field>
+              </div>
+              <div class="col-lg-2">
+                Règlement
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <select class="form-control" id="exampleFormControlSelect1">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+                <!--<mat-form-field class="form-element">
+                  <input matInput placeholder="Référence" formControlName="refFacture">
+                </mat-form-field>-->
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-2">
+                Client
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="form-element">
+                  <input matInput placeholder="Référence" formControlName="refFacture">
+                </mat-form-field>
+              </div>
+              <div class="col-lg-2">
+                Commande
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <ng-select [items]="Commandes" bindLabel="refCommande" bindValue="id" [multiple]="true"
+                    placeholder="Select Commande(s)" formControlName="commandes">
+                  </ng-select>
+                  <!-- <select class="form-control" id="exampleFormControlSelect1"  formControlName="Commandes" multiple>
+                    <option *ngFor= "let commande of Commandes" value="{{commande.id}}">{{commande.refCommande}}</option>
+                    
+                  </select>-->
+                </div>
+              </div>
+
+            </div>
 
 
             <div class="form-element">
-              <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Submit Form</button>
+              <button mat-raised-button color="primary" type="submit" class="button"
+                [disabled]="!formGroup.valid">Submit Form</button>
             </div>
 
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-    </div>
-  </ng-template>
-</form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </ng-template>
+  </form>
 
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th scope="col">#</th>
-    <th scope="col">Référence</th>
-    <th scope="col">Date Facturation</th>
-    <th scope="col">Date Paiement</th>
-    <th scope="col">Montant</th>
-    <th scope="col">Action</th>
-  </tr>
-  </thead>
-  <tbody>
-  {{countries$ | json}}
-  <tr *ngFor="let country of Factures; index as i">
-    <th scope="row">{{ i + 1 }}</th>
-    <td><ngb-highlight [result]="country.refFacture "></ngb-highlight>
-    </td>
-    <td><ngb-highlight [result]="country.dateEmission | date:'dd-MM-yyyy'"></ngb-highlight></td>
-    <td><ngb-highlight [result]="country.datePaiement | date:'dd-MM-yyyy'"></ngb-highlight></td>
-    <td><ngb-highlight [result]="country.montant | number"></ngb-highlight></td>
-    <td>
-      <a href="#">
-        <span class="glyphicon glyphicon-pencil"></span>
-      </a>
-    </td>
-  </tr>
-  </tbody>
-</table>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Référence</th>
+        <th scope="col">Date Facturation</th>
+        <th scope="col">Date Paiement</th>
+        <th scope="col">Montant</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let country of Factures; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>
+          <ngb-highlight [result]="country.refFacture "></ngb-highlight>
+        </td>
+        <td>
+          <ngb-highlight [result]="country.dateEmission | date:'dd-MM-yyyy'"></ngb-highlight>
+        </td>
+        <td>
+          <ngb-highlight [result]="country.datePaiement | date:'dd-MM-yyyy'"></ngb-highlight>
+        </td>
+        <td>
+          <ngb-highlight [result]="country.montant | number"></ngb-highlight>
+        </td>
+        <td>
+          <a href="#">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

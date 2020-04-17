@@ -5,6 +5,8 @@ import {AppComponent} from './app.component';
 import {MainComponent} from './main/main.component';
 import {DecimalPipe} from '@angular/common';
 import {CommandeComponent} from './commande/commande.component';
+import { ReglementComponent } from './reglement/reglement.component';
+import { AnalyseComponent } from './analyse/analyse.component';
 
 
 const routes: Routes = [
@@ -19,6 +21,17 @@ const routes: Routes = [
   {
     path: 'commandes',
     component: CommandeComponent
+
+  },
+  {
+    path: 'reglements',
+    component: ReglementComponent
+
+  },
+
+  {
+    path: 'analyses',
+    component: AnalyseComponent
 
   },
   {
