@@ -44,11 +44,11 @@ export class ReglementComponent implements OnInit {
   createForm() {
     this.formGroup = this.formBuilder.group({
       'refReglement': [null, Validators.required],
-      'monatant': [null, Validators.required],
+      'monatant': [null],
       'delai': [null, Validators.required],
       'etat': [null, Validators.required],
-      'type': [null, Validators.required],
-      //'date': [null, Validators.required],
+      'type': [false, Validators.required],
+      'modePaiement': [null, Validators.required],
       'validate': ''
     });
   }
@@ -56,7 +56,13 @@ export class ReglementComponent implements OnInit {
     const Reglement = this.preparedReglement();
     this.reglementService.setReglement(Reglement).subscribe();
   }
+  name = 'Angular 6';
+  marked = false;
 
+  toggleVisibility(e){
+    console.log(e.target.checked);
+    this.marked= e.target.checked;
+  }
   preparedReglement() {
     const formReglement = this.formGroup.controls;
     const Reglement = new ReglementModel;

@@ -92,7 +92,7 @@ export class FactureComponent implements OnInit {
   createCommade() {
     //this.commandes.push(this.Commandes.refCommande)
   }
-  Submit(){
+  Submitf(){
     console.log(this.formGroup.controls.commandes.value);
 }
   createForm() {

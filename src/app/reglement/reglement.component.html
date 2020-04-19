@@ -41,11 +41,18 @@
             </div>
             <div class="row">
               <div class="col-lg-2">
-                Monatant
+                Etat
               </div>
+
+              <!-- <mat-slide-toggle
+              [checked]="stateCtrl.disabled"
+              (change)="stateCtrl.disabled ? stateCtrl.enable() : stateCtrl.disable()">
+                  Disable Input?
+              </mat-slide-toggle> -->
+
               <div class="col-lg-4">
                 <mat-form-field class="form-element">
-                  <input matInput type="number" placeholder="monatant" formControlName="monatant">
+                  <input matInput placeholder="payé" formControlName="etat">
                 </mat-form-field>
               </div>
               <div class="col-lg-2">
@@ -61,20 +68,19 @@
 
             <div class="row">
               <div class="col-lg-2">
-                Etat
+                Monatant
               </div>
-
-              <!-- <mat-slide-toggle
-              [checked]="stateCtrl.disabled"
-              (change)="stateCtrl.disabled ? stateCtrl.enable() : stateCtrl.disable()">
-                  Disable Input?
-              </mat-slide-toggle> -->
-
               <div class="col-lg-4">
-                <mat-form-field class="form-element">
-                  <input matInput placeholder="payé" formControlName="etat">
-                </mat-form-field>
+                <label class="container" >
+                  <input type="checkbox" id="box" formControlName="modePaiement"   data-md-icheck (change)="toggleVisibility($event)"/>
+                  <span class="checkmark"></span>
+                  <mat-form-field class="form-element" *ngIf="marked">
+                    <input matInput type="number" placeholder="monatant" formControlName="monatant">
+                  </mat-form-field>
+                </label>
+
               </div>
+
 
 
 

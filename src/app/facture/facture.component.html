@@ -42,27 +42,18 @@
             </div>
             <div class="row">
               <div class="col-lg-2">
-                Commande
+                montant
               </div>
               <div class="col-lg-4">
-                <div class="form-group">
-                  <ng-select [items]="Commandes" bindLabel="refCommande" bindValue="id" [multiple]="true"
-                    placeholder="Select Commande(s)" formControlName="commandes">
-                  </ng-select>
-                  <!-- <select class="form-control" id="exampleFormControlSelect1"  formControlName="Commandes" multiple>
-                    <option *ngFor= "let commande of Commandes" value="{{commande.id}}">{{commande.refCommande}}</option>
-                    
-                  </select>-->
-                </div>
+                <mat-form-field class="form-element">
+                  <input matInput placeholder="montant" formControlName="montant">
+                </mat-form-field>
               </div>
               <div class="col-lg-2">
                 Règlement
               </div>
               <div class="col-lg-4">
                 <div class="form-group">
-                  <!-- <ng-select [items]="Commandes" bindLabel="refCommande" bindValue="id" [multiple]="true"
-                    placeholder="Select Commande(s)" formControlName="commandes">
-                  </ng-select> -->
                   <select class="form-control" id="exampleFormControlSelect1">
                     <option>1</option>
                     <option>2</option>
@@ -117,10 +108,6 @@
         </div>
       </div>
       <div class="modal-footer">
-        <div class="form-element">
-          <button mat-raised-button (click)="Submit()" color="primary" type="submit" class="button"
-            [disabled]="!formGroup.valid">Submit Form</button>
-        </div>
         <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
       </div>
     </ng-template>
