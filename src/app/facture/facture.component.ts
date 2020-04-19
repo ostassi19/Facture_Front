@@ -10,7 +10,6 @@ import { CommandeModel } from '../models/commande.model';
 import { CommandeService } from '../services/commande.service';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 
-
 /*const COUNTRIES: Country[] = [
   {
     name: 'Russia',
@@ -47,12 +46,16 @@ import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 })
 export class FactureComponent implements OnInit {
 
-  Factures: FactureModel;
+  Factures: FactureModel[];
   countries$: Observable<FactureModel[]>;
   filter = new FormControl('');
   formGroup: FormGroup;
-  Commandes: CommandeModel[];
-
+  Commandes: {id:number, text:string}[] = [];
+  options = {
+    width: '220',
+    multiple: true,
+    tags: true
+  };
   constructor(
     pipe: DecimalPipe,
     private factureService: FacturesService,
@@ -66,30 +69,36 @@ export class FactureComponent implements OnInit {
         //console.log(this.Factures);
       });
     console.log(this.Factures);
-   
+
   }
   ngOnInit(): void {
     this.createForm();
     this.createCommade();
-  }
-  openLg(content) {
     this.commandeService.getCommandes().subscribe(
       commandes => {
-        this.Commandes = commandes;
-        //console.log(this.Factures);
+        for (var i = 0; i< commandes.length; i ++ )
+        {
+          this.Commandes.push({id: commandes[i]['id'], text: commandes[i]['refCommande'] });
+        }
+        // this.Commandes = commandes;
+        console.log(this.Commandes);
       });
-    console.log(this.Factures);
+  }
+  openLg(content) {
+    //console.log(this.Factures);
     this.modalService.open(content, { size: 'lg' });
   }
 
   createCommade() {
     //this.commandes.push(this.Commandes.refCommande)
   }
-
+  Submit(){
+    console.log(this.formGroup.controls.commandes.value);
+}
   createForm() {
     this.formGroup = this.formBuilder.group({
       'refFacture': [null, Validators.required],
-      'dateEmission': [null, Validators.required],
+      //'dateEmission': [null, Validators.required],
       'datePaiement': [null, Validators.required],
       'montant': [null, Validators.required],
       'commandes': [null, Validators.required],

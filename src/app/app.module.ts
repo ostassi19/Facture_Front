@@ -15,7 +15,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { ReglementComponent } from './reglement/reglement.component';
 import { AnalyseComponent } from './analyse/analyse.component';
-import { NgSelectModule } from '@ng-select/ng-select';
+import { NgSelect2Module } from 'ng-select2';
 
 
 @NgModule({
@@ -38,7 +38,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
-    NgSelectModule
+    NgSelect2Module
   ],
   providers: [],
   bootstrap: [AppComponent]

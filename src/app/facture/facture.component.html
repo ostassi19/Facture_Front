@@ -82,12 +82,16 @@
               </div>
               <div class="col-lg-4">
                 <div class="form-group">
-                  <ng-select [items]="Commandes" bindLabel="refCommande" bindValue="id" [multiple]="true"
+                  <ng-select2 formControlName="commandes" [data]="Commandes"
+                              [width]="200"
+                              [options]="options">
+                  </ng-select2>
+                  <!--<ng-select [items]="Commandes" bindLabel="refCommande" bindValue="id" [multiple]="true"
                     placeholder="Select Commande(s)" formControlName="commandes">
-                  </ng-select>
+                  </ng-select>-->
                   <!-- <select class="form-control" id="exampleFormControlSelect1"  formControlName="Commandes" multiple>
                     <option *ngFor= "let commande of Commandes" value="{{commande.id}}">{{commande.refCommande}}</option>
-                    
+
                   </select>-->
                 </div>
               </div>
@@ -96,7 +100,7 @@
 
 
             <div class="form-element">
-              <button mat-raised-button color="primary" type="submit" class="button"
+              <button mat-raised-button color="primary" type="submit" class="button" (click)="Submit()"
                 [disabled]="!formGroup.valid">Submit Form</button>
             </div>
 

@@ -12,7 +12,7 @@ export class FacturesService {
 
   constructor(private http: HttpClient) { }
 
-  getFactures(): Observable<FactureModel> {
-    return this.http.get<FactureModel>(this.Base_Url);
+  getFactures(): Observable<FactureModel[]> {
+    return this.http.get<FactureModel[]>(this.Base_Url);
   }
 }
