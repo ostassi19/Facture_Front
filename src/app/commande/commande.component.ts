@@ -24,32 +24,62 @@ export class CommandeComponent implements OnInit {
     pipe: DecimalPipe,
     private modalService: NgbModal,
     private formBuilder: FormBuilder
-  )
-  {
-    this.commandeService.getCommandes().subscribe(
-      commandes => {
-        this.Commandes = commandes;
-        //console.log(this.Factures);
-      });
-    console.log(this.Commandes);
+  ) {
+
   }
 
 
   ngOnInit(): void {
+    this.getAlCommandes();
     this.createForm();
   }
+  // fonction permet d'apporter tous les données de l'entite Commande.
+  getAlCommandes(){
+    this.commandeService.getCommandes().subscribe(
+      commandes => {
+        this.Commandes = commandes;
+        //console.log(this.Commandes);
+      });
+    console.log(this.Commandes);
+  }
 
-  openLg(content) {
+  Submit(){
+    const Commande = this.preparedCommande();
+    this.commandeService.setCommande(Commande).subscribe();
+  }
+  
+  openLg(content) {//foction permettant d'ouvrir la modal ajouter
     this.modalService.open(content, { size: 'lg' });
   }
 
-  createForm() {
+
+  createForm() {// fonction permettant d'apporter tous les attributs de l'entité commande
     this.formGroup = this.formBuilder.group({
-      'refCommande': [null, Validators.required],
-      'date': [null, Validators.required],
-      'montant': [null, Validators.required],
+      'refCommande': ['C000', Validators.required],
+      //'date': [null, Validators.required],
+     // 'montant': [null, Validators.required],
+      'prixUnitaire': [null, Validators.required],
+      'reduction': [null, Validators.required],
+      'refProduit': [null, Validators.required],
+      'designationProduit': [null, Validators.required],
+      'tva': [null, Validators.required],
+      'quantité': [null, Validators.required],
       'validate': ''
     });
+  }
+  preparedCommande(){
+    const formCommande = this.formGroup.controls; 
+    const Commande  = new CommandeModel();
+    Commande.refCommande = formCommande.refCommande.value;
+    Commande.refProduit = formCommande.refProduit.value;
+    Commande.reduction = formCommande.reduction.value;
+    Commande.quantité = formCommande.quantité.value;
+    Commande.designationProduit = formCommande.designationProduit.value;
+    Commande.tva = formCommande.tva.value;
+    Commande.prixUnitaire = formCommande.prixUnitaire.value;
+    Commande.montant = 19;
+
+    return Commande;
   }
 }
 

@@ -96,4 +96,23 @@ export class FactureComponent implements OnInit {
       'validate': ''
     });
   }
+
+
+  Submit() {
+    const Facture = this.preparedFacture();
+    this.factureService.setFacture(Facture).subscribe();
+  }
+
+  preparedFacture() {
+    const formFacture = this.formGroup.controls;
+    const Facture = new FactureModel;
+
+    Facture.refFacture = formFacture.refFacture.value;
+    Facture.dateFacture = formFacture.dateFacture.value;
+    Facture.commandes = formFacture.commandes.value;
+
+    return Facture;
+  }
+
 }
+

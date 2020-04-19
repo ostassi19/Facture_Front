@@ -16,6 +16,7 @@ import {MatInputModule} from '@angular/material/input';
 import { ReglementComponent } from './reglement/reglement.component';
 import { AnalyseComponent } from './analyse/analyse.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FactureComponent,
     CommandeComponent,
     ReglementComponent,
+    
     AnalyseComponent
   ],
   imports: [
@@ -38,6 +40,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSlideToggleModule,
     NgSelectModule
   ],
   providers: [],

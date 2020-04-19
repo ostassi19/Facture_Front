@@ -3,39 +3,135 @@
     <div class="row">
       <div class="col-lg-5">
         <div class="form-group form-inline">
-          Full text search: <input class="form-control ml-2" type="text" [formControl]="filter"/>
+          Full text search: <input class="form-control ml-2" type="text" [formControl]="filter" />
         </div>
       </div>
       <div class="col-lg-5"></div>
       <div class="col-lg-2">
-        <button type="button" class="btn btn-primary" >Ajouter</button>
+        <button type="button" class="btn btn-primary" (click)="openLg(content)">Ajouter</button>
       </div>
     </div>
-    
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Ajouter Commande</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container" novalidate>
+          <form [formGroup]="formGroup" class="form">
+            <div class="row">
+              <div class="col-lg-2">
+                Référence Commande
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="form-element">
+                  <input matInput placeholder="C001" formControlName="refCommande">
+                </mat-form-field>
+              </div>
+              <div class="col-lg-2">
+                Référence Produit
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="form-element">
+                  <input matInput placeholder="P001" formControlName="refProduit">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2">
+                Désignation
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="form-element">
+                  <input matInput placeholder="Designation produit" formControlName="designationProduit">
+                </mat-form-field>
+              </div>
+              <div class="col-lg-2">
+                quantité
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="form-element">
+                  <input matInput  type="number" placeholder="4" formControlName="quantité">
+                </mat-form-field>
+              </div>
+
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-lg-2">
+                Prix Unitaire
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="form-element">
+                  <input matInput type="number"  placeholder="200$" formControlName="prixUnitaire">
+                </mat-form-field>
+              </div>
+              <div class="col-lg-2">
+                Réduction
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="form-element">
+                  <input matInput type="number"  placeholder="0.1" formControlName="reduction">
+                </mat-form-field>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-lg-2">
+                TVA
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="form-element">
+                  <input matInput type="number" placeholder="0.05" formControlName="tva">
+                </mat-form-field>
+              </div>
+            </div>
+
+            
+
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="form-element">
+          <button mat-raised-button color="primary" type="submit" class="btn btn-light"
+            [disabled]="!formGroup.valid" (click)="Submit()">Submit</button>
+        </div>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </ng-template>
   </form>
 
   <table class="table table-striped">
     <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Référence</th>
-      <th scope="col">Date Commande</th>
-      <th scope="col">Prix</th>
-    </tr>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Référence</th>
+        <th scope="col">Date Commande</th>
+        <th scope="col">Prix</th>
+      </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let commande of Commandes; index as i">
-      <th scope="row">{{ i + 1 }}</th>
-      <td><ngb-highlight [result]="commande.refCommande"></ngb-highlight>
-      </td>
-      <td><ngb-highlight [result]="commande.date | date:'dd-MM-yyyy'"></ngb-highlight></td>
-      <td><ngb-highlight [result]="commande.montant | number"></ngb-highlight></td>
-      <td>
-        <a href="#">
-          <span class="glyphicon glyphicon-pencil"></span>
-        </a>
-      </td>
-    </tr>
+      <tr *ngFor="let commande of Commandes; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{commande.refCommande}}</td>
+        <td>
+          <ngb-highlight [result]="commande.date | date:'dd-MM-yyyy'"></ngb-highlight>
+        </td>
+        <td>
+          <ngb-highlight [result]="commande.montant | number"></ngb-highlight>
+        </td>
+        <td>
+          <a href="#">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </a>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>
