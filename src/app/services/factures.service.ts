@@ -9,10 +9,15 @@ import { FactureModel} from '../models/facture.model';
 export class FacturesService {
 
   private Base_Url = 'http://localhost:8008/facture/list';
+  private Base_Url1= 'http://localhost:8008/facture/add'
 
   constructor(private http: HttpClient) { }
 
   getFactures(): Observable<FactureModel[]> {
     return this.http.get<FactureModel[]>(this.Base_Url);
+  }
+
+  setFacture(data): Observable<FactureModel[]> {
+    return this.http.post<FactureModel[]>(this.Base_Url1,data);
   }
 }

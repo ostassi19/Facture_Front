@@ -25,6 +25,7 @@ import { NgSelect2Module } from 'ng-select2';
     FactureComponent,
     CommandeComponent,
     ReglementComponent,
+    
     AnalyseComponent
   ],
   imports: [

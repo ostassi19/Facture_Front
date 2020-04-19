@@ -1,11 +1,11 @@
-export interface CommandeModel {
+export class CommandeModel {
   id: number;
   refCommande: string;
   date: string;
-  prix_unitaire: number;
+  prixUnitaire: number;
   reduction: number;
-  ref_produit: string;
-  Designation_produit: string;
+  refProduit: string;
+  designationProduit: string;
   tva: number;
   quantité: number;
   montant: number;
