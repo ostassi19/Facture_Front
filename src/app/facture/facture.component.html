@@ -41,42 +41,14 @@
 
             </div>
             <div class="row">
-              <div class="col-lg-2">
+              <!-- <div class="col-lg-2">
                 montant
               </div>
               <div class="col-lg-4">
                 <mat-form-field class="form-element">
                   <input matInput placeholder="montant" formControlName="montant">
                 </mat-form-field>
-              </div>
-              <div class="col-lg-2">
-                Règlement
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <select class="form-control" id="exampleFormControlSelect1">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
-                </div>
-                <!--<mat-form-field class="form-element">
-                  <input matInput placeholder="Référence" formControlName="refFacture">
-                </mat-form-field>-->
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-lg-2">
-                Client
-              </div>
-              <div class="col-lg-4">
-                <mat-form-field class="form-element">
-                  <input matInput placeholder="Référence" formControlName="refFacture">
-                </mat-form-field>
-              </div>
+              </div> -->
               <div class="col-lg-2">
                 Commande
               </div>
@@ -95,20 +67,47 @@
                   </select>-->
                 </div>
               </div>
+              <div class="col-lg-2">
+                Règlement
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <ng-select2 formControlName="reglements" [data]="Reglements"
+                              [width]="200"
+                              [options]="options">
+                  </ng-select2>
+                </div>
+                <!--<mat-form-field class="form-element">
+                  <input matInput placeholder="Référence" formControlName="refFacture">
+                </mat-form-field>-->
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-2">
+                Client
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="form-element">
+                  <input matInput placeholder="Référence" formControlName="refFacture">
+                </mat-form-field>
+              </div>
+              
 
             </div>
 
 
-            <div class="form-element">
-              <button mat-raised-button color="primary" type="submit" class="button" (click)="Submit()"
-                [disabled]="!formGroup.valid">Submit Form</button>
-            </div>
+            
 
           </form>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <div class="form-element">
+          <button mat-raised-button color="primary" type="submit" class="button" (click)="Submit()"
+            [disabled]="!formGroup.valid">Envoyer</button>
+        </div>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fermer</button>
       </div>
     </ng-template>
   </form>

@@ -6,6 +6,8 @@ import { DecimalPipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReglementService } from '../services/reglement.service';
 import { CommonModule } from '@angular/common';
+import { FactureModel } from '../models/facture.model';
+import { FacturesService } from '../services/factures.service';
 
 @Component({
   selector: 'app-reglement',
@@ -18,12 +20,19 @@ export class ReglementComponent implements OnInit {
   countries$: Observable<ReglementModel[]>;
   filter = new FormControl('');
   formGroup: FormGroup;
+  Factures: { id: number, text: string }[] = [];
+  options = {
+    width: '220',
+    multiple: true,
+    tags: true
+  };
 
   constructor(
 
     pipe: DecimalPipe,
     private reglementService: ReglementService,
     private modalService: NgbModal,
+    private factureService: FacturesService,
     private formBuilder: FormBuilder
   ) {
     this.reglementService.getReglements().subscribe(
@@ -36,6 +45,15 @@ export class ReglementComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.factureService.getFactures().subscribe(//apporter tous les commandes de la base
+      factures => {
+        for (var i = 0; i < factures.length; i++) {
+          this.Factures.push({ id: factures[i]['id'], text: factures[i]['refFacture'] });
+        }
+
+
+      });
+
   }
   openLg(content) {
     this.modalService.open(content, { size: 'lg' });
@@ -46,9 +64,10 @@ export class ReglementComponent implements OnInit {
       'refReglement': [null, Validators.required],
       'monatant': [null],
       'delai': [null, Validators.required],
-      'etat': [null, Validators.required],
-      'type': [false, Validators.required],
-      'modePaiement': [null, Validators.required],
+      //'etat': [null, Validators.required],
+      //'type': [false, Validators.required],
+      'factures': [null, Validators.required],
+      'modePaiement': [null],
       'validate': ''
     });
   }
@@ -59,17 +78,23 @@ export class ReglementComponent implements OnInit {
   name = 'Angular 6';
   marked = false;
 
-  toggleVisibility(e){
+  toggleVisibility(e) {
     console.log(e.target.checked);
-    this.marked= e.target.checked;
+    this.marked = e.target.checked;
   }
   preparedReglement() {
     const formReglement = this.formGroup.controls;
+    const array_facture: { id: number }[] = [];  // tableau vide de type json { "id": ! }
+    const Fact = formReglement.factures.value; // tableau facture choisir 
+    for (var i = 0; i < Fact.length; i++) { // parcoure de tableau Fact
+      array_facture.push({ id: Fact[i] }); // remplisage de tableau array_facture return [{"id": 1}]
+    }
     const Reglement = new ReglementModel;
 
     Reglement.refReglement = formReglement.refReglement.value;
     Reglement.delai = formReglement.delai.value;
-    Reglement.etat = false;
+    Reglement.factures = array_facture;
+    //Reglement.etat = false;
     Reglement.monatant = formReglement.monatant.value;
 
 

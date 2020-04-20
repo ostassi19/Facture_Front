@@ -39,16 +39,10 @@
                 </mat-form-field>
               </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-lg-2">
                 Etat
               </div>
-
-              <!-- <mat-slide-toggle
-              [checked]="stateCtrl.disabled"
-              (change)="stateCtrl.disabled ? stateCtrl.enable() : stateCtrl.disable()">
-                  Disable Input?
-              </mat-slide-toggle> -->
 
               <div class="col-lg-4">
                 <mat-form-field class="form-element">
@@ -64,11 +58,25 @@
                 </mat-form-field>
               </div>
 
+            </div> -->
+
+            <div class="row">
+              <div class="col-lg-2">
+                Factures
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <ng-select2 formControlName="factures" [data]="Factures"
+                              [width]="200"
+                              [options]="options">
+                  </ng-select2>
+                </div>
+              </div>
             </div>
 
             <div class="row">
               <div class="col-lg-2">
-                Monatant
+                Règlement partiel?
               </div>
               <div class="col-lg-4">
                 <label class="container" >

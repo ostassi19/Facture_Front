@@ -6,5 +6,6 @@ export class ReglementModel {
   delai: string;
   etat: boolean;
   type: number;
+  factures: {};
 
 }

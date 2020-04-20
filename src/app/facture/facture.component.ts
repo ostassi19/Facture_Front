@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommandeModel } from '../models/commande.model';
 import { CommandeService } from '../services/commande.service';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
+import { ReglementService } from '../services/reglement.service';
 
 /*const COUNTRIES: Country[] = [
   {
@@ -51,19 +52,22 @@ export class FactureComponent implements OnInit {
   filter = new FormControl('');
   formGroup: FormGroup;
   Commandes: {id:number, text:string}[] = [];
+  Reglements: {id:number, text:string}[] = [];// definir les champs visible du select
   options = {
     width: '220',
     multiple: true,
     tags: true
   };
+  
   constructor(
     pipe: DecimalPipe,
     private factureService: FacturesService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private commandeService: CommandeService,
+    private reglementService : ReglementService
   ) {
-    this.factureService.getFactures().subscribe(
+    this.factureService.getFactures().subscribe(//apporter tous les factures de la base
       factures => {
         this.Factures = factures;
         //console.log(this.Factures);
@@ -74,7 +78,7 @@ export class FactureComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.createCommade();
-    this.commandeService.getCommandes().subscribe(
+    this.commandeService.getCommandes().subscribe(//apporter tous les commandes de la base
       commandes => {
         for (var i = 0; i< commandes.length; i ++ )
         {
@@ -83,7 +87,21 @@ export class FactureComponent implements OnInit {
         // this.Commandes = commandes;
         console.log(this.Commandes);
       });
+
+      this.reglementService.getReglements().subscribe(
+        reglements => {
+          for (var i = 0; i< reglements.length ; i ++ )
+          {
+            this.Reglements.push({id: reglements[i]['id'], text: reglements[i]['refReglement'] });
+          }
+          // this.Commandes = commandes;
+          console.log(this.Reglements);
+        });
+
+
   }
+
+  
   openLg(content) {
     //console.log(this.Factures);
     this.modalService.open(content, { size: 'lg' });
@@ -102,6 +120,7 @@ export class FactureComponent implements OnInit {
       'datePaiement': [null, Validators.required],
       'montant': [null, Validators.required],
       'commandes': [null, Validators.required],
+      'reglements': [null, Validators.required],
       'validate': ''
     });
   }
@@ -119,6 +138,7 @@ export class FactureComponent implements OnInit {
     Facture.refFacture = formFacture.refFacture.value;
     Facture.dateFacture = formFacture.dateFacture.value;
     Facture.commandes = formFacture.commandes.value;
+    Facture.reglements = formFacture.reglements.value;
 
     return Facture;
   }
