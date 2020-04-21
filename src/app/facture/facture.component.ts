@@ -1,15 +1,15 @@
 import { Component, OnInit, PipeTransform } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, DatePipe } from '@angular/common';
 import { map, startWith } from 'rxjs/operators';
 import { FacturesService } from '../services/factures.service';
 import { FactureModel } from '../models/facture.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommandeModel } from '../models/commande.model';
 import { CommandeService } from '../services/commande.service';
-import {NgSelectModule, NgOption} from '@ng-select/ng-select';
-import { ReglementService } from '../services/reglement.service';
+import { NgSelectModule, NgOption } from '@ng-select/ng-select';
+import { PersonnelService } from '../services/personnel.service';
 
 /*const COUNTRIES: Country[] = [
   {
@@ -43,7 +43,7 @@ import { ReglementService } from '../services/reglement.service';
 @Component({
   selector: 'app-facture',
   templateUrl: './facture.component.html',
-  styleUrls: ['./facture.component.css']
+  styleUrls: ['./facture.component.css'],
 })
 export class FactureComponent implements OnInit {
 
@@ -51,21 +51,28 @@ export class FactureComponent implements OnInit {
   countries$: Observable<FactureModel[]>;
   filter = new FormControl('');
   formGroup: FormGroup;
-  Commandes: {id:number, text:string}[] = [];
-  Reglements: {id:number, text:string}[] = [];// definir les champs visible du select
+  Commandes: { id: number, text: string }[] = [];
+  Personnels: { id: number, text: string }[] = [];// definir les champs visible du select
+  // à changer avec Personnels 
   options = {
     width: '220',
     multiple: true,
     tags: true
   };
-  
+
+  op = {
+    width: '220',
+    multiple: false,
+    tags: true
+  };
+
   constructor(
     pipe: DecimalPipe,
     private factureService: FacturesService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private commandeService: CommandeService,
-    private reglementService : ReglementService
+    private personnelService: PersonnelService
   ) {
     this.factureService.getFactures().subscribe(//apporter tous les factures de la base
       factures => {
@@ -80,28 +87,26 @@ export class FactureComponent implements OnInit {
     this.createCommade();
     this.commandeService.getCommandes().subscribe(//apporter tous les commandes de la base
       commandes => {
-        for (var i = 0; i< commandes.length; i ++ )
-        {
-          this.Commandes.push({id: commandes[i]['id'], text: commandes[i]['refCommande'] });
+        for (var i = 0; i < commandes.length; i++) {
+          this.Commandes.push({ id: commandes[i]['id'], text: commandes[i]['refCommande'] });
         }
         // this.Commandes = commandes;
         console.log(this.Commandes);
       });
 
-      this.reglementService.getReglements().subscribe(
-        reglements => {
-          for (var i = 0; i< reglements.length ; i ++ )
-          {
-            this.Reglements.push({id: reglements[i]['id'], text: reglements[i]['refReglement'] });
-          }
-          // this.Commandes = commandes;
-          console.log(this.Reglements);
-        });
+    this.personnelService.getPersonnels().subscribe(
+      personnels => {
+        for (var i = 0; i < personnels.length; i++) {
+          this.Personnels.push({ id: personnels[i]['id'], text: personnels[i]['cin'] });
+        }
+        // this.Commandes = commandes;
+        console.log(this.Personnels);
+      });
 
 
   }
 
-  
+
   openLg(content) {
     //console.log(this.Factures);
     this.modalService.open(content, { size: 'lg' });
@@ -110,17 +115,18 @@ export class FactureComponent implements OnInit {
   createCommade() {
     //this.commandes.push(this.Commandes.refCommande)
   }
-  Submitf(){
+  Submitf() {
     console.log(this.formGroup.controls.commandes.value);
-}
+  }
   createForm() {
     this.formGroup = this.formBuilder.group({
       'refFacture': [null, Validators.required],
       //'dateEmission': [null, Validators.required],
-      'datePaiement': [null, Validators.required],
-      'montant': [null, Validators.required],
+      'dateFacture': [null, Validators.required],
+      //'montant': [null, Validators.required],
       'commandes': [null, Validators.required],
-      'reglements': [null, Validators.required],
+      'personnels': [null, Validators.required],
+      'montant_relance': [null, Validators.required],
       'validate': ''
     });
   }
@@ -133,12 +139,18 @@ export class FactureComponent implements OnInit {
 
   preparedFacture() {
     const formFacture = this.formGroup.controls;
-    const Facture = new FactureModel;
+    const array_commande: { id: number }[] = [];  // tableau vide de type json { "id": ! }
+    const Com = formFacture.commandes.value; // tableau facture choisir 
+    for (var i = 0; i < Com.length; i++) { // parcoure de tableau Fact
+      array_commande.push({ id: Com[i] }); // remplisage de tableau array_facture return [{"id": 1}]
+    }
 
+    const Facture = new FactureModel;
     Facture.refFacture = formFacture.refFacture.value;
     Facture.dateFacture = formFacture.dateFacture.value;
-    Facture.commandes = formFacture.commandes.value;
-    Facture.reglements = formFacture.reglements.value;
+    Facture.commandes = array_commande;
+    Facture.personnels = { id: formFacture.personnels.value };
+    Facture.montant_relance = formFacture.montant_relance.value;
 
     return Facture;
   }

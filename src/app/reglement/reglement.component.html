@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-5">
         <div class="form-group form-inline">
-          Full text search: <input class="form-control ml-2" type="text" [formControl]="filter" />
+          Recherche: <input class="form-control ml-2" type="text" [formControl]="filter" />
         </div>
       </div>
       <div class="col-lg-5"></div>
@@ -66,9 +66,16 @@
               </div>
               <div class="col-lg-4">
                 <div class="form-group">
-                  <ng-select2 formControlName="factures" [data]="Factures"
-                              [width]="200"
-                              [options]="options">
+                  <ng-select2 formControlName="factures" [data]="Factures" [width]="200" [options]="options">
+                  </ng-select2>
+                </div>
+              </div>
+              <div class="col-lg-2">
+                Client
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <ng-select2 formControlName="per" (valueChanged)="onchangeClient($event)" [data]="Personnels" [width]="200" [options]="op">
                   </ng-select2>
                 </div>
               </div>
@@ -79,22 +86,17 @@
                 Règlement partiel?
               </div>
               <div class="col-lg-4">
-                <label class="container" >
-                  <input type="checkbox" id="box" formControlName="modePaiement"   data-md-icheck (change)="toggleVisibility($event)"/>
+                <label class="container">
+                  <input type="checkbox" id="box" formControlName="modePaiement" data-md-icheck
+                    (change)="toggleVisibility($event)" />
                   <span class="checkmark"></span>
                   <mat-form-field class="form-element" *ngIf="marked">
                     <input matInput type="number" placeholder="monatant" formControlName="monatant">
                   </mat-form-field>
                 </label>
-
               </div>
 
-
-
-
             </div>
-
-
 
           </form>
         </div>
@@ -102,10 +104,10 @@
       <div class="modal-footer">
         <div class="form-element">
           <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid"
-            (click)="Submit()">Submit
-            Form</button>
+            (click)="Submit()">Envoyer
+          </button>
         </div>
-        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Annuler</button>
       </div>
     </ng-template>
   </form>
@@ -116,7 +118,7 @@
         <th scope="col">#</th>
         <th scope="col">Référence</th>
         <th scope="col">Date</th>
-        <th scope="col">Delai</th>
+        <th scope="col">Date Paiement</th>
         <th scope="col">Montant</th>
         <th scope="col">Etat</th>
 
@@ -138,10 +140,17 @@
           <ngb-highlight [result]="country.delai | date:'dd/MM/yyyy'"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="country.montant | number"></ngb-highlight>
+          <ngb-highlight [result]="country.monatant | number"></ngb-highlight>
         </td>
-        <td>{{country.etat}}</td>
         <td>
+          <P *ngIf="country.etat == false"
+            style="color: red;font-family: cursive;font-style: oblique;font-variant: petite-caps;font-size: medium;">Non
+            Payé</P>
+          <P *ngIf="country.etat == true"
+            style="color: green;font-family: cursive;font-style: oblique;font-variant: petite-caps;font-size: larger;">
+            Payé</P>
+
+        </td>
 
         <td>
           <a href="#">

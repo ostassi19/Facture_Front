@@ -9,7 +9,8 @@ import { FactureModel} from '../models/facture.model';
 export class FacturesService {
 
   private Base_Url = 'http://localhost:8008/facture/list';
-  private Base_Url1= 'http://localhost:8008/facture/add'
+  private Base_Url1= 'http://localhost:8008/facture/add';
+  private Base_Url2= 'http://localhost:8008/facture/'
 
   constructor(private http: HttpClient) { }
 
@@ -19,5 +20,8 @@ export class FacturesService {
 
   setFacture(data): Observable<FactureModel[]> {
     return this.http.post<FactureModel[]>(this.Base_Url1,data);
+  }
+  getFacturesByPersonnel(id: number): Observable<FactureModel[]> {
+    return this.http.get<FactureModel[]>(`${this.Base_Url2}/${id}/personne`);
   }
 }
