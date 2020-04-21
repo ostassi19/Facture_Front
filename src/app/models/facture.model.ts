@@ -6,9 +6,9 @@ export class FactureModel {
   dateFacture: string;
   montant: number;
   nbrelancement: number;
+  montant_relance: number;
   etat: string;
-  entreprises: string;
-  personnels: string;
-  commandes: [];
-  reglements: [];
+  personnels: {};
+  commandes: {};
+
 }

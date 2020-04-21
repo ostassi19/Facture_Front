@@ -8,6 +8,8 @@ import { ReglementService } from '../services/reglement.service';
 import { CommonModule } from '@angular/common';
 import { FactureModel } from '../models/facture.model';
 import { FacturesService } from '../services/factures.service';
+import { PersonnelService } from '../services/personnel.service';
+
 
 @Component({
   selector: 'app-reglement',
@@ -21,9 +23,17 @@ export class ReglementComponent implements OnInit {
   filter = new FormControl('');
   formGroup: FormGroup;
   Factures: { id: number, text: string }[] = [];
+
+  Personnels: { id: number, text: string }[] = [];// definir les champs visible du select
+
   options = {
     width: '220',
     multiple: true,
+    tags: true
+  };
+  op = {
+    width: '220',
+    multiple: false,
     tags: true
   };
 
@@ -33,7 +43,9 @@ export class ReglementComponent implements OnInit {
     private reglementService: ReglementService,
     private modalService: NgbModal,
     private factureService: FacturesService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private personnelService: PersonnelService
+
   ) {
     this.reglementService.getReglements().subscribe(
       reglements => {
@@ -45,18 +57,37 @@ export class ReglementComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
-    this.factureService.getFactures().subscribe(//apporter tous les commandes de la base
-      factures => {
-        for (var i = 0; i < factures.length; i++) {
-          this.Factures.push({ id: factures[i]['id'], text: factures[i]['refFacture'] });
+    this.personnelService.getPersonnels().subscribe(
+      personnels => {
+        for (var i = 0; i < personnels.length; i++) {
+          this.Personnels.push({ id: personnels[i]['id'], text: personnels[i]['cin'] });
         }
-
-
+        this.Personnels = this.Personnels;
+        // this.Commandes = commandes;
+        console.log(this.Personnels);
       });
-
   }
   openLg(content) {
     this.modalService.open(content, { size: 'lg' });
+  }
+  onchangeClient(event) {
+    // console.log(event);
+    const idper = event;//? event : this.formGroup.controls.per.value;
+    //if (event)
+    //idper = event
+    //else idper = this.formGroup.controls.per.value
+    console.log(idper);
+    this.Factures = null;
+    const Factures_: { id: number, text: string }[] = [];
+    this.factureService.getFacturesByPersonnel(idper).subscribe(//apporter tous les commandes de la base
+      factures => {
+        for (var i = 0; i < factures.length; i++) {
+          if(factures[i]['payed'] == false)
+            Factures_.push({ id: factures[i]['id'], text: factures[i]['refFacture'] });
+        }
+        this.Factures = Factures_;
+      });
+
   }
 
   createForm() {
@@ -68,6 +99,7 @@ export class ReglementComponent implements OnInit {
       //'type': [false, Validators.required],
       'factures': [null, Validators.required],
       'modePaiement': [null],
+      'per': [null],
       'validate': ''
     });
   }

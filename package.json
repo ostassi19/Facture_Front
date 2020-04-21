@@ -26,6 +26,7 @@
     "@ng-select/ng-select": "^4.0.0",
     "bootstrap": "^4.4.1",
     "jquery": "^3.5.0",
+    "mat-icon-import": "^0.1.1",
     "ng-select2": "^1.2.2",
     "popper.js": "^1.16.1",
     "rxjs": "~6.5.4",

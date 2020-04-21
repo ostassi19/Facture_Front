@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-5">
         <div class="form-group form-inline">
-          Full text search: <input class="form-control ml-2" type="text" [formControl]="filter" />
+          Recherche: <input class="form-control ml-2" type="text" [formControl]="filter" />
         </div>
       </div>
       <div class="col-lg-5"></div>
@@ -35,10 +35,9 @@
               </div>
               <div class="col-lg-4">
                 <mat-form-field class="form-element">
-                  <input matInput placeholder="date Paiement" formControlName="datePaiement">
+                  <input matInput placeholder="date Paiement" formControlName="dateFacture">
                 </mat-form-field>
               </div>
-
             </div>
             <div class="row">
               <!-- <div class="col-lg-2">
@@ -54,9 +53,7 @@
               </div>
               <div class="col-lg-4">
                 <div class="form-group">
-                  <ng-select2 formControlName="commandes" [data]="Commandes"
-                              [width]="200"
-                              [options]="options">
+                  <ng-select2 formControlName="commandes" [data]="Commandes" [width]="200" [options]="options">
                   </ng-select2>
                   <!--<ng-select [items]="Commandes" bindLabel="refCommande" bindValue="id" [multiple]="true"
                     placeholder="Select Commande(s)" formControlName="commandes">
@@ -68,13 +65,11 @@
                 </div>
               </div>
               <div class="col-lg-2">
-                Règlement
+                Client
               </div>
               <div class="col-lg-4">
                 <div class="form-group">
-                  <ng-select2 formControlName="reglements" [data]="Reglements"
-                              [width]="200"
-                              [options]="options">
+                  <ng-select2 formControlName="personnels" [data]="Personnels" [width]="200" [options]="op">
                   </ng-select2>
                 </div>
                 <!--<mat-form-field class="form-element">
@@ -85,11 +80,11 @@
 
             <div class="row">
               <div class="col-lg-2">
-                Client
+                Montant Relance
               </div>
               <div class="col-lg-4">
                 <mat-form-field class="form-element">
-                  <input matInput placeholder="Référence" formControlName="refFacture">
+                  <input matInput type="number" placeholder="100" formControlName="montant_relance">
                 </mat-form-field>
               </div>
             </div>
@@ -127,15 +122,14 @@
           <ngb-highlight [result]="country.dateEmission | date:'dd-MM-yyyy'"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="country.datePaiement | date:'dd-MM-yyyy'"></ngb-highlight>
+          <ngb-highlight [result]="country.dateFacture | date:'dd-MM-yyyy'"></ngb-highlight>
         </td>
         <td>
           <ngb-highlight [result]="country.montant | number"></ngb-highlight>
         </td>
         <td>
-          <a href="#">
-            <span class="glyphicon glyphicon-pencil"></span>
-          </a>
+          <!--<mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>-->
+
         </td>
       </tr>
     </tbody>
