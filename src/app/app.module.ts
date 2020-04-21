@@ -16,6 +16,7 @@ import {MatInputModule} from '@angular/material/input';
 import { ReglementComponent } from './reglement/reglement.component';
 import { AnalyseComponent } from './analyse/analyse.component';
 import { NgSelect2Module } from 'ng-select2';
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -25,7 +26,7 @@ import { NgSelect2Module } from 'ng-select2';
     FactureComponent,
     CommandeComponent,
     ReglementComponent,
-    
+
     AnalyseComponent
   ],
   imports: [
@@ -39,7 +40,8 @@ import { NgSelect2Module } from 'ng-select2';
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
-    NgSelect2Module
+    NgSelect2Module,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
