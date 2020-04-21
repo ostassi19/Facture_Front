@@ -93,7 +93,7 @@
       </div>
       <div class="modal-footer">
         <div class="form-element">
-          <button mat-raised-button color="primary" type="submit" class="button" (click)="Submit()"
+          <button mat-raised-button color="primary" type="submit" class="button" (click)="Submit(id)"
             [disabled]="!formGroup.valid">Envoyer</button>
         </div>
         <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fermer</button>
@@ -109,26 +109,35 @@
         <th scope="col">Date Facturation</th>
         <th scope="col">Date Paiement</th>
         <th scope="col">Montant</th>
+        <th scope="col">Montant Relance</th>
         <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let country of Factures; index as i">
+      <tr *ngFor="let facture of Factures; index as i">
         <th scope="row">{{ i + 1 }}</th>
         <td>
-          <ngb-highlight [result]="country.refFacture "></ngb-highlight>
+          <ngb-highlight [result]="facture.refFacture "></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="country.dateEmission | date:'dd-MM-yyyy'"></ngb-highlight>
+          <ngb-highlight [result]="facture.dateEmission | date:'dd-MM-yyyy'"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="country.dateFacture | date:'dd-MM-yyyy'"></ngb-highlight>
+          <ngb-highlight [result]="facture.dateFacture | date:'dd-MM-yyyy'"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="country.montant | number"></ngb-highlight>
+          <ngb-highlight [result]="facture.montant | number"></ngb-highlight>
         </td>
         <td>
-          <!--<mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>-->
+          <ngb-highlight [result]="facture.montant_relance | number"></ngb-highlight>
+        </td>
+        <td>
+          <a (click)="editFacture(facture.id, facture.refFacture, facture.dateFacture, facture.montant_relance, facture.commandes, facture.personnels, content)">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+          </a>
+          <a (click)="deleteFacture(facture.id)">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
+          </a>
 
         </td>
       </tr>

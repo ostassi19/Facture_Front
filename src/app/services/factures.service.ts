@@ -10,7 +10,7 @@ export class FacturesService {
 
   private Base_Url = 'http://localhost:8008/facture/list';
   private Base_Url1= 'http://localhost:8008/facture/add';
-  private Base_Url2= 'http://localhost:8008/facture/'
+  private Base_Url2= 'http://localhost:8008/facture/';
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +22,12 @@ export class FacturesService {
     return this.http.post<FactureModel[]>(this.Base_Url1,data);
   }
   getFacturesByPersonnel(id: number): Observable<FactureModel[]> {
-    return this.http.get<FactureModel[]>(`${this.Base_Url2}/${id}/personne`);
+    return this.http.get<FactureModel[]>(`${this.Base_Url2}${id}/personne`);
+  }
+  putFacture(id: number, data): Observable<FactureModel[]> {
+    return this.http.put<FactureModel[]>(`${this.Base_Url2}${id}/edit`, data);
+  }
+  deleteFacture(id: number): Observable<FactureModel[]> {
+    return this.http.delete<FactureModel[]>(`${this.Base_Url2}${id}/delete`);
   }
 }
