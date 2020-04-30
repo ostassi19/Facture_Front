@@ -8,6 +8,7 @@ export class FactureModel {
   nbrelancement: number;
   montant_relance: number;
   etat: string;
+  payed : boolean;
   personnels: {};
   commandes: {};
 

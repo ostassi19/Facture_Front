@@ -3,10 +3,11 @@
     <div class="row">
       <div class="col-lg-5">
         <div class="form-group form-inline">
-          Full text search: <input class="form-control ml-2" type="text" [formControl]="filter"/>
+          Recherche: <input class="form-control ml-2" type="text" [formControl]="filter"/>
         </div>
       </div>
-      
+
+
     </div>
     <ng-template #content let-modal>
       <div class="modal-header">
@@ -45,15 +46,15 @@
                   <input matInput placeholder="2" formControlName="nbrelancement">
                 </mat-form-field>
               </div>
-              
+
             </div>
-  
-  
-  
+
+
+
               <div class="form-element">
                 <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Submit Form</button>
               </div>
-  
+
           </form>
         </div>
       </div>
@@ -62,7 +63,7 @@
       </div>
     </ng-template>
   </form>
-  
+
   <table class="table table-striped">
     <thead>
     <tr>
@@ -70,7 +71,6 @@
       <th scope="col">Référence</th>
       <th scope="col">Date Paiement</th>
       <th scope="col">Nomre Relancement</th>
-      <th scope="col">Action</th>
     </tr>
     </thead>
     <tbody>
@@ -90,4 +90,4 @@
     </tbody>
   </table>
   </div>
-  
+

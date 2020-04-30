@@ -44,6 +44,7 @@ import { PersonnelService } from '../services/personnel.service';
   selector: 'app-facture',
   templateUrl: './facture.component.html',
   styleUrls: ['./facture.component.css'],
+  providers: [DatePipe]
 })
 export class FactureComponent implements OnInit {
 
@@ -73,7 +74,8 @@ export class FactureComponent implements OnInit {
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private commandeService: CommandeService,
-    private personnelService: PersonnelService
+    private personnelService: PersonnelService,
+    private datePipe: DatePipe
   ) {
 
   }
@@ -84,7 +86,7 @@ export class FactureComponent implements OnInit {
     this.getCommandes(null);
     this.getPersonnel(null);
   }
-  getFacture(){
+  getFacture() {
     this.factureService.getFactures().subscribe(//apporter tous les factures de la base
       factures => {
         this.Factures = factures;
@@ -92,45 +94,45 @@ export class FactureComponent implements OnInit {
       });
     console.log(this.Factures);
   }
-  getCommandes(commandes){
-    if(commandes){
+  getCommandes(commandes) {
+    if (commandes) {
       this.Commandes = [];
       for (var i = 0; i < commandes.length; i++) {
         this.Commandes.push({ id: commandes[i]['id'], text: commandes[i]['refCommande'] });
       }
-    }else {
+    } else {
       this.commandeService.getCommandes().subscribe(//apporter tous les commandes de la base
         commandes => {
           for (var i = 0; i < commandes.length; i++) {
-            this.Commandes.push({id: commandes[i]['id'], text: commandes[i]['refCommande']});
+            this.Commandes.push({ id: commandes[i]['id'], text: commandes[i]['refCommande'] });
           }
           // this.Commandes = commandes;
           console.log(this.Commandes);
         });
     }
   }
-  getPersonnel(personnels){
-    if(personnels){
+  getPersonnel(personnels) {
+    if (personnels) {
       this.Personnels = [];
       for (var i = 0; i < personnels.length; i++) {
         this.Personnels.push({ id: personnels[i]['id'], text: personnels[i]['cin'] });
       }
-    }else {
+    } else {
       this.personnelService.getPersonnels().subscribe(
         personnels => {
           for (var i = 0; i < personnels.length; i++) {
-            this.Personnels.push({id: personnels[i]['id'], text: personnels[i]['cin']});
+            this.Personnels.push({ id: personnels[i]['id'], text: personnels[i]['cin'] });
           }
           // this.Commandes = commandes;
           console.log(this.Personnels);
         });
     }
   }
-  openLg(content) {
+  openLg(_facture) {
     this.id = null;
     this.createForm();
     //console.log(this.Factures);
-    this.modalService.open(content, { size: 'lg' });
+    this.modalService.open(_facture, { size: 'lg' });
   }
 
   createCommade() {
@@ -143,29 +145,32 @@ export class FactureComponent implements OnInit {
     this.id = null;
     this.formGroup = this.formBuilder.group({
       'refFacture': [null, Validators.required],
-      //'dateEmission': [null, Validators.required],
       'dateFacture': [null, Validators.required],
       //'montant': [null, Validators.required],
       'commandes': [null, Validators.required],
       'personnels': [null, Validators.required],
-      'montant_relance': [null, Validators.required],
+      //'nbrelancement': [null, Validators.required],
+
       'validate': ''
     });
   }
-
-  editFacture(id: number, ref, date , montantR, commandes, per, content){
-    this.id = id;
+  //content??
+  editFacture(id: number, ref, date, commandes, per, _facture) {
+    this.id = id; //savoir que c'est une modification et pas un ajout // pour assurer la modification non l'ajout
     const com = [];
+    //recupérer tous les id commandes selectionnés dans un tableau com
+    //pour afficher les commandes existe dans la facture
     for (var i = 0; i < commandes.length; i++) {
       var c = commandes[i]['id'];
-      com.push( c.toString() );
+      com.push(c.toString());
     }
-    console.log(per);
+    //retour ["x","y"]
+    //
     const pers = [];
-    if(per){
+    if (per) {
       var p = per['id'];
-      pers.push( p.toString() );
-      console.log(pers);
+      pers.push(p.toString());
+      //console.log(pers);
     }
 
     this.formGroup = this.formBuilder.group({
@@ -174,33 +179,33 @@ export class FactureComponent implements OnInit {
       'dateFacture': [date, Validators.required],
       //'montant': [null, Validators.required],
       'commandes': [com, Validators.required],
-      'personnels': [pers?pers:null, Validators.required],
-      'montant_relance': [montantR, Validators.required],
+      'personnels': [pers ? pers : null, Validators.required],//??
+     // 'montant_relance': [montantR, Validators.required],
       'validate': ''
     });
-    this.modalService.open(content, { size: 'lg' });
+    this.modalService.open(_facture, { size: 'lg' });
     //console.log('eeee');
   }
-  deleteFacture(id: number){
+  deleteFacture(id: number) {
     this.factureService.deleteFacture(id).subscribe(
-      facture =>{
+      facture => {
         this.getFacture();
       }
     );
     console.log('eeee');
   }
   Submit(id) {
-    console.log(id);
-    if(id != null){
+    //console.log(id);
+    if (id != null) {
       this.factureService.putFacture(id, this.preparedFacture()).subscribe(
-        facture =>{
+        facture => {
           this.getFacture();
         }
       );
-    }else{
+    } else {
       const Facture = this.preparedFacture();
       this.factureService.setFacture(Facture).subscribe(
-        facture =>{
+        facture => {
           this.getFacture();
         }
       );
@@ -219,11 +224,36 @@ export class FactureComponent implements OnInit {
     Facture.refFacture = formFacture.refFacture.value;
     Facture.dateFacture = formFacture.dateFacture.value;
     Facture.commandes = array_commande;
-    var p = formFacture.personnels.value;
+    var p = formFacture.personnels.value;//[1] //{id: 1}
     Facture.personnels = { id: p[0] };
-    Facture.montant_relance = formFacture.montant_relance.value;
+   // Facture.montant_relance = formFacture.montant_relance.value;
 
     return Facture;
+  }
+
+  relacerClient(id){
+    this.id= id;
+    const formFacture = this.formGroup.controls;
+    const Facture = new FactureModel;
+    Facture.nbrelancement = formFacture.nbrelancement.value + 1;
+    // const n= nb + 1
+    // this.formGroup = this.formBuilder.group({
+    //   'refacture': [n, Validators.required],
+    //   'validate': ''});
+
+    return Facture
+
+  }
+
+  dateNow = new Date();
+  formdate =  this.datePipe.transform(this.dateNow, 'yyyy-MM-dd');
+
+  nbRelancement(id){
+    this.factureService.putFacture(id,{nbrelancement: 1}).subscribe(
+      facture => {
+        this.getFacture();
+        console.log('ok');
+      });
   }
 
 }

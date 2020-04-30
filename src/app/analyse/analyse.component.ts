@@ -49,4 +49,10 @@ export class AnalyseComponent implements OnInit {
     });
   }
 
+  importer(){
+
+  }
+
+
+
 }

@@ -8,10 +8,10 @@
       </div>
       <div class="col-lg-5"></div>
       <div class="col-lg-2">
-        <button type="button" class="btn btn-primary" (click)="openLg(content)">Ajouter</button>
+        <button type="button" class="btn btn-primary" (click)="openLg(_facture)">Ajouter</button>
       </div>
     </div>
-    <ng-template #content let-modal>
+    <ng-template #_facture let-modal>
       <div class="modal-header">
         <h4 class="modal-title">Ajouter Facture </h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -31,7 +31,7 @@
                 </mat-form-field>
               </div>
               <div class="col-lg-2">
-                date Paiement
+                date Facture
               </div>
               <div class="col-lg-4">
                 <mat-form-field class="form-element">
@@ -49,6 +49,15 @@
                 </mat-form-field>
               </div> -->
               <div class="col-lg-2">
+                Client
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <ng-select2 formControlName="personnels" [data]="Personnels" [width]="200" [options]="op">
+                  </ng-select2>
+                </div>
+              </div>
+              <div class="col-lg-2">
                 Commande
               </div>
               <div class="col-lg-4">
@@ -64,29 +73,7 @@
                   </select>-->
                 </div>
               </div>
-              <div class="col-lg-2">
-                Client
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <ng-select2 formControlName="personnels" [data]="Personnels" [width]="200" [options]="op">
-                  </ng-select2>
-                </div>
-                <!--<mat-form-field class="form-element">
-                  <input matInput placeholder="Référence" formControlName="refFacture">
-                </mat-form-field>-->
-              </div>
-            </div>
 
-            <div class="row">
-              <div class="col-lg-2">
-                Montant Relance
-              </div>
-              <div class="col-lg-4">
-                <mat-form-field class="form-element">
-                  <input matInput type="number" placeholder="100" formControlName="montant_relance">
-                </mat-form-field>
-              </div>
             </div>
           </form>
         </div>
@@ -106,10 +93,13 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Référence</th>
+        <th scope="col">Date Emission</th>
         <th scope="col">Date Facturation</th>
         <th scope="col">Date Paiement</th>
         <th scope="col">Montant</th>
-        <th scope="col">Montant Relance</th>
+        <th scope="col">Relance</th>
+        <th scope="col">Payer</th>
+<!--        <th scope="col">Montant Relance</th>-->
         <th scope="col">Action</th>
       </tr>
     </thead>
@@ -126,18 +116,54 @@
           <ngb-highlight [result]="facture.dateFacture | date:'dd-MM-yyyy'"></ngb-highlight>
         </td>
         <td>
+          <ngb-highlight [result]="facture.datePaiement | date:'dd-MM-yyyy'"></ngb-highlight>
+        </td>
+        <td>
           <ngb-highlight [result]="facture.montant | number"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="facture.montant_relance | number"></ngb-highlight>
+          <ngb-highlight [result]="facture.nbrelancement "></ngb-highlight>
         </td>
         <td>
-          <a (click)="editFacture(facture.id, facture.refFacture, facture.dateFacture, facture.montant_relance, facture.commandes, facture.personnels, content)">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
-          </a>
-          <a (click)="deleteFacture(facture.id)">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
-          </a>
+<!--          <ngb-highlight [result]="facture.payed "></ngb-highlight>-->
+          <P *ngIf="facture.payed == false"
+             style="color: red;font-family: cursive;font-style: oblique;font-variant: petite-caps;font-size: medium;">Non
+            Payé</P>
+          <P *ngIf="facture.payed == true"
+             style="color: green;font-family: cursive;font-style: oblique;font-variant: petite-caps;font-size: larger;">
+            Payé</P>
+        </td>
+<!--        <td>-->
+<!--          <ngb-highlight [result]="facture.montant_relance | number"></ngb-highlight>-->
+<!--        </td>-->
+        <td style=" width: 124px; ">
+          <div class="row" style=" width: 100px; ">
+            <div class="col-md-2">
+              <a (click)="editFacture(facture.id, facture.refFacture, facture.dateFacture,
+           facture.commandes, facture.personnels,_facture)">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+              </a>
+            </div>
+            <div class="col-md-2">
+              <a (click)="deleteFacture(facture.id)">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
+              </a>
+            </div>
+            <div class="col-md-2">
+              <a (click)="nbRelancement(facture.id)">
+                <mat-icon *ngIf="(facture.dateFacture < formdate || facture.dateFacture == formdate) && (!facture.payed) ">cached
+                </mat-icon>
+                <!--            *ngIf="facture.dateFacture < dateNow && facture.Payed == false "-->
+              </a>
+            </div>
+          </div>
+
+
+<!--          <a (click)="nbRelancement(facture.id, facture.dateFacture)">-->
+<!--            <mat-icon>cached</mat-icon>-->
+<!--          </a>-->
+
+
 
         </td>
       </tr>

@@ -7,5 +7,7 @@ export class ReglementModel {
   etat: boolean;
   type: number;
   factures: {};
+  personnels: {};
+  dateP:string;
 
 }

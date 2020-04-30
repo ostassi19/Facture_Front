@@ -8,10 +8,10 @@
       </div>
       <div class="col-lg-5"></div>
       <div class="col-lg-2">
-        <button type="button" class="btn btn-primary" (click)="openLg(content)">Ajouter</button>
+        <button type="button" class="btn btn-primary" (click)="openLg(_reglement)">Ajouter</button>
       </div>
     </div>
-    <ng-template #content let-modal>
+    <ng-template #_reglement let-modal>
       <div class="modal-header">
         <h4 class="modal-title">Ajouter Règlement</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -75,7 +75,7 @@
               </div>
               <div class="col-lg-4">
                 <div class="form-group">
-                  <ng-select2 formControlName="per" (valueChanged)="onchangeClient($event)" [data]="Personnels" [width]="200" [options]="op">
+                  <ng-select2 formControlName="personnels" (valueChanged)="onchangeClient($event)" [data]="Personnels" [width]="200" [options]="op">
                   </ng-select2>
                 </div>
               </div>
@@ -104,7 +104,7 @@
       <div class="modal-footer">
         <div class="form-element">
           <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid"
-            (click)="Submit()">Envoyer
+            (click)="Submit(id)">Envoyer
           </button>
         </div>
         <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Annuler</button>
@@ -118,37 +118,72 @@
         <th scope="col">#</th>
         <th scope="col">Référence</th>
         <th scope="col">Date</th>
+        <th scope="col">Date Limite</th>
         <th scope="col">Date Paiement</th>
         <th scope="col">Montant</th>
         <th scope="col">Etat</th>
+        <th scope="col">Type</th>
 
         <th scope="col">Action</th>
 
       </tr>
     </thead>
     <tbody>
-      {{countries$ | json}}
-      <tr *ngFor="let country of Reglements; index as i">
+
+
+      <tr *ngFor="let reglement of Reglements; index as i">
         <th scope="row">{{ i + 1 }}</th>
         <td>
-          <ngb-highlight [result]="country.refReglement "></ngb-highlight>
+          <ngb-highlight [result]="reglement.refReglement "></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="country.date | date:'dd/MM/yyyy'"></ngb-highlight>
+          <ngb-highlight [result]="reglement.date | date:'dd/MM/yyyy'"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="country.delai | date:'dd/MM/yyyy'"></ngb-highlight>
+          <ngb-highlight [result]="reglement.delai | date:'dd/MM/yyyy'"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="country.monatant | number"></ngb-highlight>
+          <ngb-highlight [result]="reglement.dateP | date:'dd/MM/yyyy'"></ngb-highlight>
         </td>
         <td>
-          <P *ngIf="country.etat == false"
+          <ngb-highlight [result]="reglement.monatant | number"></ngb-highlight>
+        </td>
+        <td>
+          <P *ngIf="reglement.etat == false"
             style="color: red;font-family: cursive;font-style: oblique;font-variant: petite-caps;font-size: medium;">Non
             Payé</P>
-          <P *ngIf="country.etat == true"
+          <P *ngIf="reglement.etat == true"
             style="color: green;font-family: cursive;font-style: oblique;font-variant: petite-caps;font-size: larger;">
             Payé</P>
+
+        </td>
+        <td>
+          <P *ngIf="reglement.type == false">
+           Total </P>
+          <P *ngIf="reglement.type == true">
+
+             Partiel</P>
+
+        </td>
+        <td style=" width: 124px; ">
+          <div class="row" style=" width: 100px; ">
+            <div class="col-md-2">
+              <a (click)="editReglement(reglement.id, reglement.refReglement, reglement.date, reglement.delai,
+              reglement.monatant,reglement.factures, reglement.personnels,reglement.etat,_reglement)">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+              </a>
+            </div>
+            <div class="col-md-2">
+              <a (click)="deleteReglement(reglement.id)">
+                  <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
+              </a>
+            </div>
+            <div class="col-md-2">
+              <a *ngIf="reglement.etat==false" (click)="etatReg(reglement.id)" >
+                <mat-icon>payment</mat-icon>
+              </a>
+            </div>
+          </div>
 
         </td>
 
